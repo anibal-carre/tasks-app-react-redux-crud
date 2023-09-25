@@ -4,7 +4,7 @@ import { addTask, editTask } from "../features/tasks/taskSlice";
 import { v4 as uuid } from "uuid";
 import { useNavigate, useParams } from "react-router-dom";
 
-const TaskForm = () => {
+const TaskForm = ({ setShowModal }) => {
   const [task, setTask] = useState({
     title: "",
     description: "",
@@ -26,6 +26,7 @@ const TaskForm = () => {
 
     if (params.id) {
       dispatch(editTask(task));
+      setShowModal(false);
     } else {
       dispatch(
         addTask({
@@ -33,6 +34,7 @@ const TaskForm = () => {
           id: uuid(),
         })
       );
+      setShowModal(false);
     }
   };
 
@@ -42,8 +44,9 @@ const TaskForm = () => {
     }
   }, []);
   return (
-    <form onSubmit={handleSubmit}>
+    <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
       <input
+        className="border h-8 px-2"
         type="text"
         name="title"
         placeholder="title"
@@ -52,13 +55,24 @@ const TaskForm = () => {
       />
 
       <textarea
+        className="border h-24 px-2"
         name="description"
         placeholder="description"
         onChange={handleChange}
         value={task.description}
       ></textarea>
 
-      <button>Save</button>
+      <div className="w-full flex justify-between mt-5">
+        <button
+          onClick={() => setShowModal(false)}
+          className="w-[45%] bg-red-700 text-white py-1 rounded-sm"
+        >
+          Close
+        </button>
+        <button className="w-[45%] bg-zinc-800 text-white py-1 rounded-sm">
+          Save
+        </button>
+      </div>
     </form>
   );
 };
