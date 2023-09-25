@@ -1,5 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 import { deleteTask } from "../features/tasks/taskSlice";
+import { Link } from "react-router-dom";
 
 const TaskList = () => {
   const tasks = useSelector((state) => state.tasks);
@@ -20,6 +21,7 @@ const TaskList = () => {
           >
             Delete
           </button>
+          <Link to={`/edit-task/${task.id}`}>Edit</Link>
         </div>
       ))}
     </div>
